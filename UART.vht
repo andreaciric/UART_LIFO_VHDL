@@ -34,7 +34,7 @@ ARCHITECTURE UART_arch OF UART_vhd_tst IS
 	-- constants     
 	constant C_CLK_PERIOD : time := 20 ns;
 	constant CLK_FREQUENCY : integer := 50000000;
-	constant BR : integer := 38400;
+	constant BR : integer := 9600;
 	constant Rx_BIT_DURATION : time := C_CLK_PERIOD * CLK_FREQUENCY / BR;                                               
 	                                            
 	-- signals                                                   
@@ -84,8 +84,14 @@ BEGIN
         	wait for 20 ns;
 		reset <= '0';
 		wait for 10 ns;
-		bitrate_in <= "000";
-		data_in <= "01011101";
+		bitrate_in <= "011";
+		data_in <= "01100001";
+		wait for 15 ns;
+		data_in_ack <= '1';  
+		wait for Rx_BIT_DURATION*10;
+		data_in_ack <= '0'; 
+		wait for 300 us;
+		data_in <= "01100011";
 		wait for 15 ns;
 		data_in_ack <= '1';  
 		wait for Rx_BIT_DURATION*10;
